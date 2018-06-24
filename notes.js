@@ -33,8 +33,29 @@ hash.set('GET /:username', async function getNotes (req, res, params) {
   let result = await db.getUser(username)
 
   if (result) {
-
     result = await db.getNotes(null,10)
+    if (result.length != 0) {
+      send(res, 200, result)
+    } else {
+      send(res, 200, {warning:'No notes found'})
+    }
+  } else {
+      send(res, 200, {warning:'User Not Found'})
+  }
+
+  await db.disconnect()
+})
+
+hash.set('GET /:username/:noteId', async function getNotes (req, res, params) {
+
+  db.connect()
+  let username = params.username
+  let noteId = params.noteId
+  let result = await db.getUser(username)
+
+  if (result) {
+    result = await db.getNotes(noteId,10)
+
     if (result.length != 0) {
       send(res, 200, result)
     } else {
@@ -50,7 +71,6 @@ hash.set('GET /:username', async function getNotes (req, res, params) {
 module.exports = async function main (req, res) {
 
   let { method, url } = req
-
   let match = hash.get(`${method.toUpperCase()} ${url}`)
 
   if (match.handler) {
