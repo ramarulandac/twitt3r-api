@@ -1,0 +1,35 @@
+{
+  "name": "twitt3r-api",
+  "version": "1.0.0",
+  "description": "API Rest Service to support twitt3r users functionalities",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramarulandac/twitt3r-api.git"
+  },
+  "keywords": [
+    "API",
+    "Rest",
+    "twitt3r",
+    "users"
+  ],
+  "author": "init.author.email",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ramarulandac/twitt3r-api/issues"
+  },
+  "homepage": "https://github.com/ramarulandac/twitt3r-api#readme",
+  "dependencies": {
+    "http-hash": "^2.0.0",
+    "micro": "^9.3.2",
+    "uuid-base62": "^0.1.0",
+    "twitt3r-db": "file:../twitt3r-db",
+  }
+}
