@@ -9,17 +9,42 @@ const utils = require('./lib/utils')
 let hash = httpHash()
 let db = new Db(config)
 
-hash.set('GET /', async function newUser (req, res, params) {
+hash.set('POST /', async function newNote (req, res, params) {
+
+  let note = await json(req)
 
   db.connect()
-  let result = await db.newUser(utils.newUser())
-  await db.disconnect()
+  let result = await db.newNote(note)
+
   if (result['result'].ok == 1) {
     send(res, 200, result['ops'][0])
   } else {
-    send(res, 500, {error:'Error getting a User Name'})
+    send(res, 500, {error:'Error creating a new Note'})
   }
 
+  await db.disconnect()
+
+})
+
+hash.set('GET /:username', async function getNotes (req, res, params) {
+
+  db.connect()
+  let username = params.username
+  let result = await db.getUser(username)
+
+  if (result) {
+
+    result = await db.getNotes(null,10)
+    if (result.length != 0) {
+      send(res, 200, result)
+    } else {
+      send(res, 200, {warning:'No notes found'})
+    }
+  } else {
+      send(res, 200, {warning:'User Not Found'})
+  }
+
+  await db.disconnect()
 })
 
 module.exports = async function main (req, res) {
